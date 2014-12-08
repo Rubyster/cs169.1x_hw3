@@ -43,10 +43,16 @@ Then /(?:|I )should( not)? see: (.*)/ do |should_not, rating_list|
   end
 end
 
-
+When /(?:|I )check all ratings/ do
+  Movie.all_ratings.each do |rating|
+    steps %Q{
+      When check "ratings_#{rating}"
+    }
+  end
+end
 
 Then /(?:|I )should see all the movies/ do
   # Make sure that all the movies in the app are visible in the table
-
+  page.all('#movies tbody tr').count.should == Movie.all.count
   # flunk "Unimplemented"
 end
